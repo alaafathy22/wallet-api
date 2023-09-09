@@ -17,18 +17,18 @@ class LogoutApi
                 try {
                     JWTAuth::setToken($token)->invalidate();
                     return response()->json([
-                        'message' => 'logout successfuly',
+                        'message' => 'تم تسجيل الخروج',
                     ]);
                 } catch (TokenInvalidException $ex) {
                     return response()->json([
                         'status' => false,
-                        'message' => 'some thing wrrong invalidate',
+                        'message' => 'يوجد مشكله برجاء المراجعه',
                     ]);
                 }
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => 'some thing wrrong T',
+                    'message' => 'برجاء مراجعه البيانات',
                 ]);
             }
         } catch (TokenExpiredException $ex) {

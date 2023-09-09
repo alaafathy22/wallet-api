@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Models\Detail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -10,14 +13,15 @@ class Delete_Content
 {
     public function Delete_Content(Request $request)
     {
-        $id = $request->Id_For_content;
+        $user_login_id = Auth::guard('api')->user()->id;
+        $id_row = $request->Id_For_content;
         $validator = Validator::make(
             $request->all(),
             $rules = [
                 'Id_For_content' => 'required',
             ],
             $messages = [
-                'Id_For_content.required' => 'ألزام وجود أل الرقم',
+                'Id_For_content.required' => 'ألزام وجود أل رقم السطر المراد حذفه',
 
             ]
         );
@@ -28,16 +32,16 @@ class Delete_Content
                 'message' => $validator->errors()
             ]);
         }
-        if (DB::table('details')->find($id)) {
-            DB::delete("DELETE FROM `details` WHERE `id`=$id ");
+        $delete_status = Detail::where('id', $id_row)->where('user_id', $user_login_id)->delete();
+        if ($delete_status) {
             return response()->json([
                 'status' => true,
-                'message' => 'Deleted'
+                'message' => 'تم الحذف'
             ]);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'Some error in your data KEY'
+                'message' => 'برجاء مراجعه البيانات',
             ]);
         }
     }

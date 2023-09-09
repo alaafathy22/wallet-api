@@ -1,18 +1,19 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['checkPassword'], 'namespace' => 'App\Http\Controllers\Api'], function () {
-    Route::post('HomePage', 'Home@con_show');
+    Route::post('LoginPage', 'Login_Controller@login_con');
+    Route::post('HomePage', 'Home@con_show')->middleware('assinGuard:api');
+    Route::post('create_wallet', 'create_wallet@create_wallet_fun')->middleware('assinGuard:api');
+    Route::post('enterValueForWallets', 'enterValueForWallets@enterValueForWallets_fun')->middleware('assinGuard:api');
+    Route::post('LogOut', 'LogoutApi@LogOut');
+    Route::post('Delete_Content', 'Delete_Content@Delete_Content')->middleware('assinGuard:api');
+    Route::post('Edit_Content', 'Edit_Content@Edit_Content_fun')->middleware('assinGuard:api');
     Route::post('SignUp', 'SignUp@creatUser');
-    Route::get('LogOut', 'LogoutApi@LogOut');
-    Route::get('Delete_Content', 'Delete_Content@Delete_Content');
-    Route::get('Edit_Content_For_User', 'Edit_Content@Edit_Content_For_User')->middleware('assinGuard:api');
-    Route::get('Input_contents_for_user', 'Input_contents@Input_contents_for_user')->middleware('assinGuard:api');
-    Route::get('creat_wallet', 'creat_wallet@creat_wallet')->middleware('assinGuard:api');
 });
-
 
 
 

@@ -24,8 +24,8 @@ class AssinGuard extends BaseMiddleware
     {
         if ($guard != null) {
             auth()->shouldUse($guard); //shoud you user guard / table
-            $token = $request->header('auth-token');
-            $request->headers->set('auth-token', (string) $token, true);
+            $token = $request->header('auth_token');
+            $request->headers->set('auth_token', (string) $token, true);
             $request->headers->set('Authorization', 'Bearer ' . $token, true);
             try {
                 $user = JWTAuth::parseToken()->authenticate();
